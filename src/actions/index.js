@@ -22,7 +22,7 @@ export function fetchPhotos(name) {
   return function (dispatch) {
     console.log(name);
     dispatch(requestPhotos());
-    return unsplash.users.photos('naoufal', 1, 10, 'popular', false)
+    return unsplash.users.photos(name, 1, 10, 'popular', false)
       .then(
         response => response.json(),
         error => console.log('An error occurred.', error),

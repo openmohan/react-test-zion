@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // TODO: refactor to functional component if no state exists
 export default class SearchContainer extends React.Component {
@@ -13,12 +14,11 @@ export default class SearchContainer extends React.Component {
   }
 
   _handleSubmit(e) {
+    const { getPhotos } = this.props;
+    const { searchName } = this.state;
+
+    getPhotos(searchName);
     e.preventDefault();
-    if (e.key === 'Enter') {
-      console.log('enter');
-    }
-    console.log(this.state);
-    return false;
   }
 
   _handleKeyChange(e) {
@@ -38,3 +38,12 @@ export default class SearchContainer extends React.Component {
     );
   }
 }
+
+SearchContainer.propTypes = {
+  getPhotos: PropTypes.func,
+};
+
+// Specifies the default values for props:
+SearchContainer.defaultProps = {
+  getPhotos() { },
+};

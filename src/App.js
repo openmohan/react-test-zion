@@ -2,8 +2,9 @@ import React from 'react';
 import './App.css';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import SearchContainer from './components/searchContainer';
+import SearchContainer from './components/SearchContainer';
 import { fetchPhotos } from './actions/index';
+import Gallery from './components/Gallery';
 
 class App extends React.Component {
   constructor(props) {
@@ -18,19 +19,17 @@ class App extends React.Component {
 
 
   render() {
+    const { getPhotos } = this.props;
+
     return (
       <div className="App">
         <div className="main-container">
           <div className="left">
-            <SearchContainer />
+            <SearchContainer getPhotos={getPhotos} />
           </div>
           <div className="right">
             <div className="child scrollable">
-              RIGHTs
-              <br />
-              <br />
-              <br />
-              Lorem ipsum dolor  kasamet.
+              <Gallery />
             </div>
           </div>
         </div>
