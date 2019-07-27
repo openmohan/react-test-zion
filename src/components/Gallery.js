@@ -1,19 +1,71 @@
 import React from 'react';
 import './Gallery.scss'
+import Loading from './Loading';
 
-const imgUrls = ['https://source.unsplash.com/PC_lbSSxCZE/800x600', 'https://source.unsplash.com/lVmR1YaBGG4/800x600', 'https://source.unsplash.com/5KvPQc1Uklk/800x600', 'https://source.unsplash.com/GtYFwFrFbMA/800x600', 'https://source.unsplash.com/Igct8iZucFI/800x600', 'https://source.unsplash.com/M01DfkOqz7I/800x600', 'https://source.unsplash.com/MoI_cHNcSK8/800x600', 'https://source.unsplash.com/M0WbGFRTXqU/800x600', 'https://source.unsplash.com/s48nn4NtlZ4/800x600', 'https://source.unsplash.com/E4944K_4SvI/800x600', 'https://source.unsplash.com/F5Dxy9i8bxc/800x600', 'https://source.unsplash.com/iPum7Ket2jo/800x600',
-];
+let imgUrls = [];
+
+function chunkArray(myArray, chunk_size) {
+    var index = 0;
+    var arrayLength = myArray.length;
+    var tempArray = [];
+    let toSplitInto = arrayLength / chunk_size;
+
+    for (index = 0; index < arrayLength; index += toSplitInto) {
+        let myChunk = myArray.slice(index, index + toSplitInto);
+        // Do something if you want with the group
+        tempArray.push(myChunk);
+    }
+
+    return tempArray;
+}
 
 class Gallery extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { currentIndex: null };
+        this.state = { currentIndex: null, isBottomDebouncer: false };
         this.closeModal = this.closeModal.bind(this);
         this.findNext = this.findNext.bind(this);
         this.findPrev = this.findPrev.bind(this);
         this.renderImageContent = this.renderImageContent.bind(this);
+        this._handleScroll = this._handleScroll.bind(this);
+        this.debounce = this.debounce.bind(this);
+        this.isAtBottom = this.debounce(this._isAtBottom.bind(this));
     }
 
+    componentDidMount() {
+        document.getElementById("gallery-grid").addEventListener("scroll", this._handleScroll)
+    }
+
+    _isAtBottom(element) {
+        const isAtBottom = Math.ceil(element.scrollHeight - element.scrollTop) === element.clientHeight || Math.floor(element.scrollHeight - element.scrollTop) === element.clientHeight
+
+        return isAtBottom
+    }
+
+    debounce(fn) {
+        let context = this
+        let isExecuting = false;
+        return (function () {
+            let args = arguments
+            if (!isExecuting) {
+                isExecuting = true
+                setTimeout(() => { isExecuting = false }, 10)
+                return fn.apply(context, args)
+            }
+        })
+    }
+
+    _handleScroll(e) {
+        const { fetchNextPhotos } = this.props
+        let flag = this._isAtBottom(e.target)
+        if (flag) {
+            if (!this.state.isFetching) {
+                this.setState({ isFetching: true })
+                setTimeout(() => { this.setState({ isFetching: false }) }, 500)
+                fetchNextPhotos(this.props.appState.currentUser)
+            }
+        }
+    }
 
     openModal(e, index) {
         this.setState({ currentIndex: index });
@@ -47,19 +99,43 @@ class Gallery extends React.Component {
     renderImageContent(src, index) {
         return (
             <div onClick={e => this.openModal(e, index)} onKeyDown={() => { }} key={src.id}>
-                <img src={src.urls.regular} key={src.id} />
+                <img src={src.urls.thumb} key={src.id} />
             </div>
         );
     }
 
+    renderColumnWiseImage(photos) {
+        let photosChunk = chunkArray(photos, 4);
+        console.log(photosChunk)
+        return (
+            <div className='row' >
+                <div className="column">
+                    {photosChunk[0].map(this.renderImageContent)}
+                </div>
+                <div className="column">
+                    {photosChunk[1].map(this.renderImageContent)}
+                </div>
+                <div className="column">
+                    {photosChunk[2].map(this.renderImageContent)}
+                </div>
+                <div className="column">
+                    {photosChunk[3].map(this.renderImageContent)}
+                </div>
+            </div >
+        )
+    }
+
     render() {
         const { currentIndex } = this.state;
-        const { photos } = this.props
-
+        const { photos, imageURLS, isLoading, loading } = this.props
+        imgUrls = imageURLS
+        console.log(photos, "--------photos", "isLoading", loading)
         return (
-            <div className="gallery-container">
-                <div className="gallery-grid">
-                    {photos.length == 0 ? <h1>No Images</h1> : photos.map(this.renderImageContent)}
+            <div className="gallery-container" id="gallery-container">
+                <div className="gallery-grid" id="gallery-grid">
+                    {/* {photos.length == 0 ? <h1>No Images</h1> : photos.map(this.renderImageContent)} */}
+                    {photos.length == 0 ? <h1>No Images</h1> : this.renderColumnWiseImage(photos)}
+                    {loading && <Loading></Loading>}
                 </div>
                 <GalleryModal
                     closeModal={this.closeModal}
@@ -81,11 +157,11 @@ class GalleryModal extends React.Component {
     }
 
     componentDidMount() {
-        document.body.addEventListener('keydown', this.handleKeyDown);
+        // document.body.addEventListener('keydown', this.handleKeyDown);
     }
 
     componentWillUnMount() {
-        document.body.removeEventListener('keydown', this.handleKeyDown);
+        // document.body.removeEventListener('keydown', this.handleKeyDown);
     }
 
     handleKeyDown(e) {

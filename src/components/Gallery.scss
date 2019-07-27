@@ -1,3 +1,20 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+  flex: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+}
+
 // Media Queries
 // 1. Name and define our breakpoints. Name the map something sensical
 // 2. Write a comma separated list of key: value, pairs that we will use later
@@ -55,9 +72,10 @@ body {
   font-weight: lighter;
 }
 .gallery-grid {
-  display: grid;
+  display: block;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 8px;
+  max-height: 100%;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;

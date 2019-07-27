@@ -1,3 +1,5 @@
 scripts/**
 config/**
 src/components/Gallery.js
+static/**
+build/**

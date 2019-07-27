@@ -24,11 +24,13 @@ const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const printHostingInstructions = require('react-dev-utils/printHostingInstructions');
 const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
 const printBuildError = require('react-dev-utils/printBuildError');
-
+const paths = require('../config/paths');
+const { checkBrowsers } = require('react-dev-utils/browsersHelper');
+const configFactory = require('../config/webpack.config');
 const { measureFileSizesBeforeBuild } = FileSizeReporter;
 const { printFileSizesAfterBuild } = FileSizeReporter;
-const useYarn = fs.existsSync(paths.yarnLockFile);
-
+const useYarn = false
+console.log(paths)
 // These sizes are pretty large. We'll warn for bundles exceeding them.
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
@@ -45,9 +47,7 @@ const config = configFactory('production');
 
 // We require that you explicitly set browsers and do not fall back to
 // browserslist defaults.
-const { checkBrowsers } = require('react-dev-utils/browsersHelper');
-const paths = require('../config/paths');
-const configFactory = require('../config/webpack.config');
+
 
 checkBrowsers(paths.appPath, isInteractive)
   .then(() =>
@@ -70,12 +70,12 @@ checkBrowsers(paths.appPath, isInteractive)
         console.log(warnings.join('\n\n'));
         console.log(
           `\nSearch for the ${
-            chalk.underline(chalk.yellow('keywords'))
+          chalk.underline(chalk.yellow('keywords'))
           } to learn more about each warning.`,
         );
         console.log(
           `To ignore, add ${
-            chalk.cyan('// eslint-disable-next-line')
+          chalk.cyan('// eslint-disable-next-line')
           } to the line before.\n`,
         );
       } else {
@@ -167,7 +167,7 @@ function build(previousFileSizes) {
         console.log(
           chalk.yellow(
             '\nTreating warnings as errors because process.env.CI = true.\n'
-              + 'Most CI servers set it automatically.\n',
+            + 'Most CI servers set it automatically.\n',
           ),
         );
         return reject(new Error(messages.warnings.join('\n\n')));

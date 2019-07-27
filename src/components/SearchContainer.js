@@ -16,10 +16,12 @@ export default class SearchContainer extends React.Component {
   }
 
   _handleSubmit(e) {
-    const { getPhotos } = this.props;
+    const { getPhotos, loadingToggle } = this.props;
     const { searchName } = this.state;
 
     getPhotos(searchName);
+    loadingToggle(true);
+
     e.preventDefault();
   }
 
