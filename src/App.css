@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+html, body, #root, #root>div {
+  height: 100%
+}
+
+.pageContent{
+  min-height: 80%
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
@@ -23,11 +31,38 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.main-container {
+    height:100%;
+    display:flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    -webkit-align-content: stretch;
+    align-content: stretch;
+}
+
+.left {
+    background-color:lightgreen;
+    width:20%;
+    height:95%;    
+}
+
+.right {
+    background-color: red;
+    -webkit-flex: 1;
+    flex:1;
+    height:95%;    
+    position:relative;
+}
+
+.child {
+    background-color:steelblue;
+    position:absolute;
+    width:100%;
+    height:100%;    
+}
+
+.scrollable {
+     overflow-y:auto;
 }
