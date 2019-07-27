@@ -1,13 +1,18 @@
-import { SELECT_CHANNEL, REQUEST_PHOTOS, RECEIVE_PHOTOS } from '../actions';
+import { REQUEST_PHOTOS, RECEIVE_PHOTOS, ADD_USER_DATA } from '../actions/constants';
 
-const reducer = (state = {}, action) => {
+const reducer = (state = { photos: [], receivedUsers: {} }, action) => {
   switch (action.type) {
-    case SELECT_CHANNEL:
-      return { ...state, channel: action.channel };
     case REQUEST_PHOTOS:
       return { ...state, loading: true };
     case RECEIVE_PHOTOS:
-      return { ...state, json: action.json, loading: false };
+      return {
+        ...state, photos: action.json, loading: false,
+      };
+    case ADD_USER_DATA: {
+      return {
+        ...state, receivedUsers: { ...state.receivedUsers, [action.data.name]: action.data.json },
+      };
+    }
     default:
       return state;
   }

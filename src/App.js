@@ -12,30 +12,25 @@ class App extends React.Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    const { getPhotos } = this.props;
-    getPhotos('name');
-  }
-
 
   render() {
-    const { getPhotos } = this.props;
+    const { getPhotos, photos, receivedUsers } = this.props;
 
     return (
       <div className="App">
         <div className="main-container">
           <div className="left">
-            <SearchContainer getPhotos={getPhotos} />
+            <SearchContainer getPhotos={getPhotos} receivedUsers={receivedUsers} />
           </div>
           <div className="right">
             <div className="child scrollable">
-              <Gallery />
+              <Gallery photos={photos} />
             </div>
           </div>
         </div>
 
         <footer>
-          <p>Footer</p>
+          Footer
         </footer>
       </div>
     );
@@ -51,7 +46,12 @@ App.defaultProps = {
   getPhotos() { },
 };
 
-const mapStateToProps = state => ({ active: state.channel });
+const mapStateToProps = state => (
+  {
+    photos: state.photos,
+    receivedUsers: state.receivedUsers,
+  }
+);
 const mapDispatchToProps = dispatch => ({
   getPhotos: (name) => {
     dispatch(fetchPhotos(name));

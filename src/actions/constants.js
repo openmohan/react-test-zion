@@ -1,0 +1,3 @@
+export const REQUEST_PHOTOS = 'REQUEST_PHOTOS';
+export const RECEIVE_PHOTOS = 'RECEIVE_PHOTOS';
+export const ADD_USER_DATA = 'ADD_USER_DATA';

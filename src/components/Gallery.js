@@ -46,18 +46,20 @@ class Gallery extends React.Component {
 
     renderImageContent(src, index) {
         return (
-            <div onClick={e => this.openModal(e, index)} onKeyDown={() => { }}>
-                <img src={src} key={src} />
+            <div onClick={e => this.openModal(e, index)} onKeyDown={() => { }} key={src.id}>
+                <img src={src.urls.regular} key={src.id} />
             </div>
         );
     }
 
     render() {
         const { currentIndex } = this.state;
+        const { photos } = this.props
+
         return (
             <div className="gallery-container">
                 <div className="gallery-grid">
-                    {imgUrls.map(this.renderImageContent)}
+                    {photos.length == 0 ? <h1>No Images</h1> : photos.map(this.renderImageContent)}
                 </div>
                 <GalleryModal
                     closeModal={this.closeModal}
@@ -97,7 +99,6 @@ class GalleryModal extends React.Component {
             closeModal, hasNext, hasPrev, findNext, findPrev, src,
         } = this.props;
         if (!src) {
-            console.log('whut');
             return null;
         }
         return (
