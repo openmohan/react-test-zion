@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.dd1bc90b.chunk.css",
-    "main.js": "/static/js/main.222c401f.chunk.js",
-    "main.js.map": "/static/js/main.222c401f.chunk.js.map",
-    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
-    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-    "static/js/2.6d71cd5e.chunk.js": "/static/js/2.6d71cd5e.chunk.js",
-    "static/js/2.6d71cd5e.chunk.js.map": "/static/js/2.6d71cd5e.chunk.js.map",
+    "main.css": "https://raw.githubusercontent.com/openmohan/react-test-zion/gh-pages/static/css/main.dd1bc90b.chunk.css",
+    "main.js": "https://raw.githubusercontent.com/openmohan/react-test-zion/gh-pages/static/js/main.222c401f.chunk.js",
+    "main.js.map": "https://raw.githubusercontent.com/openmohan/react-test-zion/gh-pagesstatic/js/main.222c401f.chunk.js.map",
+    "runtime~main.js": "https://raw.githubusercontent.com/openmohan/react-test-zion/gh-pages/static/js/runtime~main.a8a9905a.js",
+    "runtime~main.js.map": "https://raw.githubusercontent.com/openmohan/react-test-zion/gh-pages/static/js/runtime~main.a8a9905a.js.map",
+    "static/js/2.6d71cd5e.chunk.js": "https://raw.githubusercontent.com/openmohan/react-test-zion/gh-pages/static/js/2.6d71cd5e.chunk.js",
+    "static/js/2.6d71cd5e.chunk.js.map": "https://raw.githubusercontent.com/openmohan/react-test-zion/gh-pages/static/js/2.6d71cd5e.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.01f0746ac22c52366fb229f99f89816a.js": "/precache-manifest.01f0746ac22c52366fb229f99f89816a.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.dd1bc90b.chunk.css.map": "/static/css/main.dd1bc90b.chunk.css.map"
+    "precache-manifest.01f0746ac22c52366fb229f99f89816a.js": "https://raw.githubusercontent.com/openmohan/react-test-zion/gh-pages/precache-manifest.01f0746ac22c52366fb229f99f89816a.js",
+    "service-worker.js": "https://raw.githubusercontent.com/openmohan/react-test-zion/gh-pages/service-worker.js",
+    "static/css/main.dd1bc90b.chunk.css.map": "https://raw.githubusercontent.com/openmohan/react-test-zion/gh-pages/static/css/main.dd1bc90b.chunk.css.map"
   }
 }
