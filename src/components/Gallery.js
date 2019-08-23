@@ -3,6 +3,8 @@ import './Gallery.scss'
 import Loading from './Loading';
 
 let imgUrls = [];
+let imageObjects = {}
+let imageObjectsKeys = []
 
 function chunkArray(myArray, chunk_size) {
     var index = 0;
@@ -68,45 +70,44 @@ class Gallery extends React.Component {
     }
 
     openModal(e, index) {
-        this.setState({ currentIndex: index });
+        this.setState({ modalURL: e.currentTarget.dataset.url, id: e.currentTarget.dataset.id });
     }
 
     closeModal(e) {
         if (e !== undefined) {
             e.preventDefault();
         }
-        this.setState({ currentIndex: null });
+        this.setState({ modalURL: null, id: "" });
     }
 
     findPrev(e) {
         if (e !== undefined) {
             e.preventDefault();
         }
-        this.setState(prevState => ({
-            currentIndex: prevState.currentIndex - 1,
-        }));
+
+        let newID = imageObjectsKeys[imageObjectsKeys.indexOf(this.state.id) - 1]
+        this.setState({ modalURL: imageObjects[newID], id: newID })
     }
 
     findNext(e) {
         if (e !== undefined) {
             e.preventDefault();
         }
-        this.setState(prevState => ({
-            currentIndex: prevState.currentIndex + 1,
-        }));
+
+        let newID = imageObjectsKeys[imageObjectsKeys.indexOf(this.state.id) - 1]
+        this.setState({ modalURL: imageObjects[newID], id: newID })
     }
 
     renderImageContent(src, index) {
         return (
-            <div onClick={e => this.openModal(e, index)} onKeyDown={() => { }} key={src.id}>
-                <img src={src.urls.thumb} key={src.id} />
+            <div className="imageContent" onClick={e => this.openModal(e, index)} onKeyDown={() => { }} key={src.id} data-url={src.urls.regular} data-id={src.id}>
+                <img className="imageContent" src={src.urls.thumb} key={src.id} />
             </div>
         );
     }
 
     renderColumnWiseImage(photos) {
         let photosChunk = chunkArray(photos, 4);
-        console.log(photosChunk)
         return (
             <div className='row' >
                 <div className="column">
@@ -125,25 +126,37 @@ class Gallery extends React.Component {
         )
     }
 
+    componentWillReceiveProps() {
+
+    }
+
     render() {
-        const { currentIndex } = this.state;
+        const { currentIndex, modalURL } = this.state;
         const { photos, imageURLS, isLoading, loading } = this.props
         imgUrls = imageURLS
-        console.log(photos, "--------photos", "isLoading", loading)
+        photos.forEach(function (photo) {
+            imageObjects[photo.id] = photo.urls.regular
+        })
+        imageObjectsKeys = Object.keys(imageObjects)
+
+        let oldIndex = imageObjectsKeys.indexOf(this.state.id)
+        let hasPrev = oldIndex > 0
+        let hasNext = oldIndex + 1 < imageObjectsKeys.length
+
         return (
-            <div className="gallery-container" id="gallery-container">
+            <div className="gallery-container" id="gallery-container" >
                 <div className="gallery-grid" id="gallery-grid">
                     {/* {photos.length == 0 ? <h1>No Images</h1> : photos.map(this.renderImageContent)} */}
                     {photos.length == 0 ? <h1>No Images</h1> : this.renderColumnWiseImage(photos)}
                     {loading && <Loading></Loading>}
                 </div>
                 <GalleryModal
-                    closeModal={this.closeModal}
+                    closeModal={() => { this.closeModal() }}
                     findPrev={this.findPrev}
                     findNext={this.findNext}
-                    hasPrev={currentIndex > 0}
-                    hasNext={currentIndex + 1 < imgUrls.length}
-                    src={imgUrls[currentIndex]}
+                    hasPrev={hasPrev}
+                    hasNext={hasNext}
+                    src={modalURL}
                 />
             </div>
         );
@@ -157,11 +170,11 @@ class GalleryModal extends React.Component {
     }
 
     componentDidMount() {
-        // document.body.addEventListener('keydown', this.handleKeyDown);
+        document.body.addEventListener('keydown', this.handleKeyDown);
     }
 
     componentWillUnMount() {
-        // document.body.removeEventListener('keydown', this.handleKeyDown);
+        document.body.removeEventListener('keydown', this.handleKeyDown);
     }
 
     handleKeyDown(e) {

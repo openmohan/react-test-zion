@@ -12,23 +12,16 @@ class App extends React.Component {
     this.state = {};
   }
 
-  componentWillReceiveProps(props) {
-    console.log(props);
-  }
-
 
   render() {
     const {
       getPhotos, receivedUsers, app, getNextPhotos, users, loading,
     } = this.props;
-    console.log(users.andrewtneel);
     let imageURLS = [];
     let photos = [];
     const { currentUser } = app;
-    console.log(currentUser);
 
     if (currentUser && currentUser !== '' && users[currentUser]) {
-      console.log('change expected');
       imageURLS = users[currentUser].photos.map(photo => photo.urls.regular);
       ({ photos } = users[currentUser]);
     }

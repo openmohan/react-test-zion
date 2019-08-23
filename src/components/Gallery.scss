@@ -95,7 +95,7 @@ body {
     border: 5px solid #fff;
   }
 }
-.gallery-grid div {
+.gallery-grid .imageContent {
   position: relative;
   cursor: pointer;
   &:before, &:after {

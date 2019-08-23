@@ -97,7 +97,7 @@ export function fetchPhotos(name) {
         dispatch(loadingToggle(false));
       }
     } catch (e) {
-      console.log(e, 'eorrr------');
+      throw e;
     }
 
     return null;
